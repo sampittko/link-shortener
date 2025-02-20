@@ -18,17 +18,21 @@ export async function GET(req, { params }) {
     });
   }
 
-  const cookieStore = cookies();
-  const lastVisit = cookieStore.get(`hit_${slug}`);
+  const cookieHeader = req.headers.get("cookie") || "";
+  const cookies = Object.fromEntries(
+    cookieHeader.split("; ").map((c) => c.split("="))
+  );
+  const lastVisit = cookies[`hit_${slug}`];
 
-  if (!lastVisit || Date.now() - parseInt(lastVisit.value, 10) > 60000) {
+  if (!lastVisit || Date.now() - parseInt(lastVisit, 10) > 60000) {
     await redis.incr(`hits:${slug}`);
-    cookieStore.set(`hit_${slug}`, Date.now().toString(), {
-      path: "/",
-      httpOnly: true,
-      maxAge: 3600,
-    });
-    console.log(`Hit recorded for: ${slug}`);
+
+    const response = NextResponse.redirect(destination, 302);
+    response.headers.set(
+      "Set-Cookie",
+      `hit_${slug}=${Date.now()}; Path=/; HttpOnly; Max-Age=60`
+    );
+    return response;
   }
 
   return NextResponse.redirect(destination, 302);
