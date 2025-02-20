@@ -10,12 +10,18 @@ const redis = Redis.fromEnv();
 
 export async function GET(req, { params }) {
   const { slug } = params;
-  const destination = redirects[slug];
+  let destination = redirects[slug];
 
   if (!destination) {
     return new Response(JSON.stringify({ error: "Not found" }), {
       status: 404,
     });
+  }
+
+  const url = new URL(destination);
+  if (!url.searchParams.has("utm_source")) {
+    url.searchParams.append("utm_source", "fwt.wtf");
+    destination = url.toString();
   }
 
   const cookieHeader = req.headers.get("cookie") || "";
