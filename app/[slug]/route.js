@@ -18,12 +18,6 @@ export async function GET(req, { params }) {
     });
   }
 
-  const url = new URL(destination);
-  if (!url.searchParams.has("utm_source")) {
-    url.searchParams.append("utm_source", "fwt.wtf");
-    destination = url.toString();
-  }
-
   const cookieHeader = req.headers.get("cookie") || "";
   const cookies = Object.fromEntries(
     cookieHeader.split("; ").map((c) => c.split("="))
