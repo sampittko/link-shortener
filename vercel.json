@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://freewith.tech",
+      "permanent": true
+    }
+  ]
+}
