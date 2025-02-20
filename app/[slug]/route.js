@@ -18,6 +18,13 @@ export async function GET(req, { params }) {
     });
   }
 
+  const url = new URL(req.url);
+  const queryParams = url.searchParams.toString();
+
+  if (queryParams) {
+    destination += (destination.includes("?") ? "&" : "?") + queryParams;
+  }
+
   const cookieHeader = req.headers.get("cookie") || "";
   const cookies = Object.fromEntries(
     cookieHeader.split("; ").map((c) => c.split("="))
