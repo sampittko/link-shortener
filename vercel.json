@@ -1,55 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/tatryit", "destination": "/tatryit" },
-    { "source": "/kickoff", "destination": "/kickoff" },
-    { "source": "/self-awareness", "destination": "/self-awareness" },
-    { "source": "/digital-minimalism", "destination": "/digital-minimalism" },
-    { "source": "/tech-independence", "destination": "/tech-independence" },
-    { "source": "/my-story", "destination": "/my-story" },
-    { "source": "/my-story-video", "destination": "/my-story-video" },
-    { "source": "/first-step", "destination": "/first-step" },
-    { "source": "/first-step-video", "destination": "/first-step-video" },
-    { "source": "/second-step", "destination": "/second-step" },
-    { "source": "/second-step-video", "destination": "/second-step-video" },
-    { "source": "/final-step", "destination": "/final-step" },
-    { "source": "/final-step-video", "destination": "/final-step-video" },
-    { "source": "/delete-your-chats", "destination": "/delete-your-chats" },
-    {
-      "source": "/delete-your-chats-video",
-      "destination": "/delete-your-chats-video"
-    },
-    { "source": "/outsmart-the-feed", "destination": "/outsmart-the-feed" },
-    {
-      "source": "/outsmart-the-feed-video",
-      "destination": "/outsmart-the-feed-video"
-    },
-    { "source": "/low-data-living", "destination": "/low-data-living" },
-    {
-      "source": "/low-data-living-video",
-      "destination": "/low-data-living-video"
-    },
-    {
-      "source": "/choose-your-digital-path",
-      "destination": "/choose-your-digital-path"
-    },
-    {
-      "source": "/choose-your-digital-path-video",
-      "destination": "/choose-your-digital-path-video"
-    },
-    { "source": "/break-the-default", "destination": "/break-the-default" },
-    {
-      "source": "/break-the-default-video",
-      "destination": "/break-the-default-video"
-    },
-    { "source": "/slow-your-scroll", "destination": "/slow-your-scroll" },
-    {
-      "source": "/slow-your-scroll-video",
-      "destination": "/slow-your-scroll-video"
-    }
-  ],
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "destination": "https://www.youtube.com/@freewithtech",
       "permanent": true
     }
