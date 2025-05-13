@@ -42,5 +42,5 @@ export async function GET(req, { params }) {
     return response;
   }
 
-  return NextResponse.redirect(destination, 301);
+  return NextResponse.redirect(destination, 302);
 }
