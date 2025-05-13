@@ -34,7 +34,7 @@ export async function GET(req, { params }) {
   if (!lastVisit || Date.now() - parseInt(lastVisit, 10) > 60000) {
     await redis.incr(`hits:${slug}`);
 
-    const response = NextResponse.redirect(destination, 301);
+    const response = NextResponse.redirect(destination, 302);
     response.headers.set(
       "Set-Cookie",
       `hit_${slug}=${Date.now()}; Path=/; HttpOnly; Max-Age=60`
