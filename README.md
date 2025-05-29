@@ -1,4 +1,4 @@
-# [fwt.wtf](https://fwt.wtf) - URL Shortener
+# [free with tech](https://fwt.wtf) - URL Shortener
 
 A simple, secure URL shortener service for the [**free with tech**](https://freewith.tech) brand. This service provides short, memorable links for blog posts, videos, and resources related to digital minimalism and intentional technology use.
 
@@ -137,6 +137,10 @@ Contributions are welcome! Feel free to:
 ## 📄 License
 
 This project is open source and available under the MIT License.
+
+## ☕ Support
+
+If you find this project valuable, [consider buying me a coffee](https://www.buymeacoffee.com/sampittko)!
 
 ---
 
