@@ -21,6 +21,7 @@ This Next.js application serves as a custom URL shortener that:
 ## 🧱 Tech Stack
 
 - **Next.js 15** with App Router
+- **TypeScript** for type safety
 - **Upstash Redis** for analytics tracking
 - **Vercel** for hosting and deployment
 - **Domain whitelisting** for security
@@ -65,10 +66,11 @@ The service will be available at `http://localhost:3000/[slug]`
 ```
 /app
   /[slug]
-    route.js         # Dynamic route handler for URL redirection
+    route.ts         # Dynamic route handler for URL redirection
 /public              # Static assets
 redirects.json       # URL mappings configuration
 vercel.json         # Deployment and redirect configuration
+tsconfig.json       # TypeScript configuration
 ```
 
 ## ⚙️ Configuration
@@ -93,7 +95,7 @@ For security, only these domains are permitted as destinations:
 - `youtu.be`
 - `open.substack.com`
 
-To modify allowed domains, edit the `ALLOWED_DOMAINS` array in `/app/[slug]/route.js`.
+To modify allowed domains, edit the `ALLOWED_DOMAINS` array in `/app/[slug]/route.ts`.
 
 ### Analytics
 

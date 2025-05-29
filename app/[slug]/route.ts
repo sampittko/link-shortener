@@ -1,10 +1,14 @@
 import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+interface Redirects {
+  [key: string]: string;
+}
 
 const redirectsFile = path.join(process.cwd(), "redirects.json");
-const redirects = JSON.parse(fs.readFileSync(redirectsFile, "utf8"));
+const redirects: Redirects = JSON.parse(fs.readFileSync(redirectsFile, "utf8"));
 
 const ALLOWED_DOMAINS = [
   "freewith.tech",
@@ -12,33 +16,30 @@ const ALLOWED_DOMAINS = [
   "v2.freewith.tech",
   "youtu.be",
   "open.substack.com",
-];
+] as const;
 
 const redis = Redis.fromEnv();
 
-export async function GET(req, { params }) {
-  const { slug } = params;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
+  const { slug } = await params;
   let destination = redirects[slug];
 
   if (!destination) {
-    return new Response(JSON.stringify({ error: "Not found" }), {
-      status: 404,
-    });
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   try {
     const destinationUrl = new URL(destination);
-    if (!ALLOWED_DOMAINS.includes(destinationUrl.hostname)) {
+    if (!ALLOWED_DOMAINS.includes(destinationUrl.hostname as any)) {
       console.error(`Blocked redirect to unauthorized domain: ${destinationUrl.hostname}`);
-      return new Response(JSON.stringify({ error: "Invalid destination" }), {
-        status: 400,
-      });
+      return NextResponse.json({ error: "Invalid destination" }, { status: 400 });
     }
   } catch (error) {
     console.error(`Invalid destination URL: ${destination}`);
-    return new Response(JSON.stringify({ error: "Invalid destination URL" }), {
-      status: 400,
-    });
+    return NextResponse.json({ error: "Invalid destination URL" }, { status: 400 });
   }
 
   const url = new URL(req.url);
@@ -69,4 +70,4 @@ export async function GET(req, { params }) {
   }
 
   return NextResponse.redirect(destination, 302);
-}
+} 
