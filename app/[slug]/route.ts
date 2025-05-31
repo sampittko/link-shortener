@@ -11,6 +11,7 @@ const redirectsFile = path.join(process.cwd(), "redirects.json");
 const redirects: Redirects = JSON.parse(fs.readFileSync(redirectsFile, "utf8"));
 
 const ALLOWED_DOMAINS = [
+  "github.com",
   "freewith.tech",
   "v1.freewith.tech",
   "v2.freewith.tech",
