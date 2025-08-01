@@ -17,6 +17,7 @@ const ALLOWED_DOMAINS = [
   "v2.freewith.tech",
   "youtu.be",
   "open.substack.com",
+  "testflight.apple.com",
 ] as const;
 
 const redis = Redis.fromEnv();
