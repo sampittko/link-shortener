@@ -8,10 +8,16 @@
 
   "sign": "https://v2.freewith.tech",
 
+  "apps": "https://freewith.tech/apps",
+
   "axis": "https://freewith.tech/apps/axis",
   "join-axis-beta": "https://testflight.apple.com/join/4tz72bYZ",
+  "axis-app-store": "https://testflight.apple.com/join/4tz72bYZ",
   "joex": "https://freewith.tech/apps/joex",
   "join-joex-beta": "https://testflight.apple.com/join/151enCMN",
+  "joex-app-store": "https://testflight.apple.com/join/151enCMN",
+  "axis-joex-bundle-app-store": "https://freewith.tech/apps",
+  "joex-axis-bundle-app-store": "https://freewith.tech/apps",
 
   "tatryit": "https://youtu.be/3OE9W2tfsy4",
   "hlasypopradu": "https://youtu.be/ByJxicHrvwg",
