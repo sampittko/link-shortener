@@ -7,15 +7,20 @@
   "v3": "https://freewith.tech",
 
   "sign": "https://v2.freewith.tech",
+  "manifesto": "https://v2.freewith.tech",
 
   "apps": "https://freewith.tech/apps",
 
   "axis": "https://freewith.tech/apps/axis",
+  "axis-beta": "https://testflight.apple.com/join/4tz72bYZ",
   "join-axis-beta": "https://testflight.apple.com/join/4tz72bYZ",
   "axis-app-store": "https://testflight.apple.com/join/4tz72bYZ",
+
   "joex": "https://freewith.tech/apps/joex",
+  "joex-beta": "https://testflight.apple.com/join/151enCMN",
   "join-joex-beta": "https://testflight.apple.com/join/151enCMN",
   "joex-app-store": "https://testflight.apple.com/join/151enCMN",
+
   "axis-joex-bundle-app-store": "https://freewith.tech/apps",
   "joex-axis-bundle-app-store": "https://freewith.tech/apps",
 
