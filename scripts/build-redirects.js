@@ -36,4 +36,4 @@ const redirects = {
 const outputPath = path.join(__dirname, '..', 'redirects.json');
 fs.writeFileSync(outputPath, JSON.stringify(redirects, null, 2) + '\n');
 
-console.log(`✅ Generated redirects.json with ${Object.keys(redirects).length} redirects`);
+console.log(`✅ Generated redirects.json with ${Object.keys(redirects).length} redirects\n`);
