@@ -5,7 +5,7 @@ const path = require('path');
 
 // Helper function to load JSON file
 function loadRedirectsFile(filename) {
-  const filePath = path.join(__dirname, 'redirects', filename);
+  const filePath = path.join(__dirname, '..', 'data', filename);
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
