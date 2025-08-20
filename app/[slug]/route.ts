@@ -1,7 +1,7 @@
-import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
+import { createTrackedRedirect } from "@/lib/redirect-utils";
 
 interface Redirects {
   [key: string]: string;
@@ -20,56 +20,35 @@ const ALLOWED_DOMAINS = [
   "testflight.apple.com",
 ] as const;
 
-const redis = Redis.fromEnv();
-
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<NextResponse> {
-  const { slug } = await params;
-  let destination = redirects[slug];
-
-  if (!destination) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-
+function validateDestination(destination: string): NextResponse | null {
   try {
     const destinationUrl = new URL(destination);
     if (!ALLOWED_DOMAINS.includes(destinationUrl.hostname as any)) {
       console.error(`Blocked redirect to unauthorized domain: ${destinationUrl.hostname}`);
       return NextResponse.json({ error: "Invalid destination" }, { status: 400 });
     }
+    return null;
   } catch (error) {
     console.error(`Invalid destination URL: ${destination}`);
     return NextResponse.json({ error: "Invalid destination URL" }, { status: 400 });
   }
+}
 
-  const url = new URL(req.url);
-  const queryParams = url.searchParams.toString();
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
+  const { slug } = await params;
+  const destination = redirects[slug];
 
-  if (queryParams) {
-    destination += (destination.includes("?") ? "&" : "?") + queryParams;
+  if (!destination) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const cookieHeader = req.headers.get("cookie") || "";
-  const cookies = Object.fromEntries(
-    cookieHeader.split("; ").map((c) => {
-      const [key, ...values] = c.split("=");
-      return [key, values.join("=")];
-    })
-  );
-  const lastVisit = cookies[`hit_${slug}`];
-
-  if (!lastVisit || Date.now() - parseInt(lastVisit, 10) > 60000) {
-    await redis.incr(`hits:${slug}`);
-
-    const response = NextResponse.redirect(destination, 302);
-    response.headers.set(
-      "Set-Cookie",
-      `hit_${slug}=${Date.now()}; Path=/; HttpOnly; Max-Age=60`
-    );
-    return response;
+  const validationError = validateDestination(destination);
+  if (validationError) {
+    return validationError;
   }
 
-  return NextResponse.redirect(destination, 302);
+  return createTrackedRedirect(req, destination, slug);
 } 
