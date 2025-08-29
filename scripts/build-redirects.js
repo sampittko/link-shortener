@@ -13,7 +13,8 @@ const files = [
   'legacy-websites.json',
   'apps.json',
   'appearances.json',
-  'content.json'
+  'content.json',
+  'dev-logs.json'
 ];
 
 const redirectSections = files.map(filename => ({
