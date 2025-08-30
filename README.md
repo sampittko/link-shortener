@@ -1,6 +1,6 @@
-# [free with tech](https://fwt.wtf) - URL Shortener
+# URL Shortener [#freewithtech](https://fwt.wtf)
 
-A simple, secure URL shortener service for the [**free with tech**](https://freewith.tech) brand. This service provides short, memorable links for blog posts, videos, and resources related to digital minimalism and intentional technology use.
+A simple, secure URL shortener service for the [**#freewithtech**](https://freewith.tech) brand. This service provides short, memorable links for blog posts, videos, and resources related to digital minimalism and intentional technology use.
 
 ## ✨ What it does
 
@@ -144,4 +144,4 @@ If you find this project valuable, [consider buying me a coffee](https://www.buy
 
 ---
 
-**Part of the [free with tech](https://freewith.tech) ecosystem** - helping people build a healthier relationship with technology.
+**Part of the [#freewithtech](https://freewith.tech) ecosystem** - helping people build a healthier relationship with technology.
