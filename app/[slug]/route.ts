@@ -19,7 +19,8 @@ const ALLOWED_DOMAINS = [
   "youtu.be",
   "open.substack.com",
   "testflight.apple.com",
-  "producthunt.com"
+  "producthunt.com",
+  "apps.apple.com"
 ] as const;
 
 function validateDestination(destination: string): NextResponse | null {
