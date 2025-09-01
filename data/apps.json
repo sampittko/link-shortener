@@ -1,20 +1,17 @@
 {
   "apps": "https://freewith.tech/apps",
-  
   "axis": "https://freewith.tech/apps/axis",
   "axis-beta": "https://testflight.apple.com/join/4tz72bYZ",
   "join-axis-beta": "https://testflight.apple.com/join/4tz72bYZ",
-  "axis-app-store": "https://testflight.apple.com/join/4tz72bYZ",
+  "axis-app-store": "https://apps.apple.com/us/app/fwt-axis/id6748249702?platform=appleWatch",
   "axis-launch": "https://producthunt.com/products/fwt-axis",
   "axis-launch-video": "https://youtu.be/H7Md3EEcLI8",
-  
   "joex": "https://freewith.tech/apps/joex",
   "joex-beta": "https://testflight.apple.com/join/151enCMN",
   "join-joex-beta": "https://testflight.apple.com/join/151enCMN",
-  "joex-app-store": "https://testflight.apple.com/join/151enCMN",
+  "joex-app-store": "https://apps.apple.com/us/app/fwt-joex/id6748255450?platform=appleWatch",
   "joex-launch": "https://producthunt.com/products/fwt-joex",
   "joex-launch-video": "https://youtu.be/AE3aF5lXp7E",
-  
   "axis-joex-bundle": "https://freewith.tech/apps",
   "axis-joex-bundle-app-store": "https://freewith.tech/apps",
   "joex-axis-bundle": "https://freewith.tech/apps",
