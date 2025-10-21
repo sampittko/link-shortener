@@ -17,6 +17,7 @@ const ALLOWED_DOMAINS = [
   "v2.freewith.tech",
   "journey.freewith.tech",
   "youtu.be",
+  "youtube.com",
   "open.substack.com",
   "testflight.apple.com",
   "producthunt.com",
