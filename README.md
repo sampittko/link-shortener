@@ -8,7 +8,7 @@ This Next.js application serves as a custom URL shortener that:
 
 - **Redirects short URLs** to full blog posts and videos
 - **Tracks click analytics** using Upstash Redis
-- **Prevents abuse** with domain whitelisting and rate limiting
+- **Prevents abuse** with build-time domain/protocol validation
 - **Preserves query parameters** when redirecting
 - **Provides clean, memorable links** for content sharing
 
@@ -114,7 +114,7 @@ For security, only these domains are permitted as destinations:
 - `producthunt.com`
 - `apps.apple.com`
 
-To modify allowed domains, edit the `ALLOWED_DOMAINS` array in `/app/[slug]/route.ts`.
+To modify allowed domains, edit the `ALLOWED_DOMAINS` set in `/scripts/build-redirects.js`.
 
 ### Analytics
 
@@ -125,9 +125,9 @@ Click tracking is implemented with:
 
 ## 🔒 Security Features
 
-- **Domain whitelisting** prevents malicious redirects
-- **URL validation** ensures destination URLs are properly formatted
-- **Rate limiting** prevents analytics manipulation
+- **Build-time domain whitelisting** prevents malicious redirects
+- **Build-time URL + protocol validation** ensures destination URLs are properly formatted and use HTTPS
+- **Duplicate slug detection** prevents accidental redirect overrides across `/data/*.json` files
 - **Query parameter preservation** maintains link functionality
 
 ## 🚀 Deployment
