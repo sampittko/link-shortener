@@ -14,13 +14,12 @@ export async function createTrackedRedirect(
   slug: string,
   permanent: boolean = false
 ): Promise<NextResponse> {
-  const url = new URL(req.url);
-  const queryParams = url.searchParams.toString();
-  
-  let finalDestination = destination;
-  if (queryParams) {
-    finalDestination += (destination.includes("?") ? "&" : "?") + queryParams;
+  const requestUrl = new URL(req.url);
+  const destinationUrl = new URL(destination);
+  for (const [key, value] of requestUrl.searchParams.entries()) {
+    destinationUrl.searchParams.append(key, value);
   }
+  const finalDestination = destinationUrl.toString();
 
   const statusCode = permanent ? 308 : 302;
   if (!redis) {
