@@ -22,18 +22,19 @@ export async function createTrackedRedirect(
     finalDestination += (destination.includes("?") ? "&" : "?") + queryParams;
   }
 
+  const statusCode = permanent ? 308 : 302;
+  if (!redis) {
+    return NextResponse.redirect(finalDestination, statusCode);
+  }
+
   const hitCookieName = `hit_${slug}`;
   const lastVisit = Number(req.cookies.get(hitCookieName)?.value);
 
-  const statusCode = permanent ? 308 : 302;
-
   if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > HIT_DEDUPE_WINDOW_MS) {
-    if (redis) {
-      try {
-        await redis.incr(`hits:${slug}`);
-      } catch (error) {
-        console.error(`Failed to track hit for slug "${slug}"`, error);
-      }
+    try {
+      await redis.incr(`hits:${slug}`);
+    } catch (error) {
+      console.error(`Failed to track hit for slug "${slug}"`, error);
     }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
