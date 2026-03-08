@@ -31,7 +31,7 @@ This Next.js application serves as a custom URL shortener that:
 ### Prerequisites
 
 - Node.js 18+
-- Upstash Redis database
+- Upstash Redis database (optional, only for analytics)
 - Vercel account (for deployment)
 
 ### Local Development
@@ -47,12 +47,14 @@ cd fwtwtf-website
 npm install
 ```
 
-3. Set up environment variables:
+3. Set up environment variables (optional, only for analytics):
 ```bash
 # .env.local
 UPSTASH_REDIS_REST_URL=your_redis_url
 UPSTASH_REDIS_REST_TOKEN=your_redis_token
 ```
+
+If these variables are not set, redirects still work and analytics is disabled.
 
 4. Run the development server:
 ```bash
@@ -117,9 +119,9 @@ To modify allowed domains, edit the `ALLOWED_DOMAINS` array in `/app/[slug]/rout
 ### Analytics
 
 Click tracking is implemented with:
-- **Rate limiting**: Prevents duplicate counts within 60 seconds from the same user
-- **Redis storage**: Tracks hits per slug using `hits:{slug}` keys
-- **Cookie-based deduplication**: Uses `hit_{slug}` cookies to prevent spam
+- **Optional Redis storage**: Tracks hits per slug using `hits:{slug}` keys when Upstash env vars are configured
+- **Cookie-based deduplication**: Uses `hit_{slug}` cookies to prevent duplicate hits within 60 seconds
+- **Graceful fallback**: If Redis is not configured, redirects still work and no analytics cookies are set
 
 ## 🔒 Security Features
 
