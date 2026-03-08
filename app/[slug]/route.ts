@@ -10,7 +10,7 @@ interface Redirects {
 const redirectsFile = path.join(process.cwd(), "redirects.json");
 const redirects: Redirects = JSON.parse(fs.readFileSync(redirectsFile, "utf8"));
 
-const ALLOWED_DOMAINS = [
+const ALLOWED_DOMAINS = new Set<string>([
   "github.com",
   "freewith.tech",
   "v1.freewith.tech",
@@ -22,12 +22,12 @@ const ALLOWED_DOMAINS = [
   "testflight.apple.com",
   "producthunt.com",
   "apps.apple.com"
-] as const;
+]);
 
 function validateDestination(destination: string): NextResponse | null {
   try {
     const destinationUrl = new URL(destination);
-    if (!ALLOWED_DOMAINS.includes(destinationUrl.hostname as any)) {
+    if (!ALLOWED_DOMAINS.has(destinationUrl.hostname)) {
       console.error(`Blocked redirect to unauthorized domain: ${destinationUrl.hostname}`);
       return NextResponse.json({ error: "Invalid destination" }, { status: 400 });
     }
