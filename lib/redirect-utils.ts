@@ -1,7 +1,10 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-const redis = Redis.fromEnv();
+const hasRedisEnv =
+  Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
+  Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
+const redis = hasRedisEnv ? Redis.fromEnv() : null;
 
 export async function createTrackedRedirect(
   req: NextRequest,
@@ -23,10 +26,12 @@ export async function createTrackedRedirect(
   const statusCode = permanent ? 308 : 302;
 
   if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > 60000) {
-    try {
-      await redis.incr(`hits:${slug}`);
-    } catch (error) {
-      console.error(`Failed to track hit for slug "${slug}"`, error);
+    if (redis) {
+      try {
+        await redis.incr(`hits:${slug}`);
+      } catch (error) {
+        console.error(`Failed to track hit for slug "${slug}"`, error);
+      }
     }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
