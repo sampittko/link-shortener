@@ -65,19 +65,30 @@ The service will be available at `http://localhost:3000/[slug]`
 
 ```
 /app
+  route.ts              # Root redirect (/ -> freewith.tech)
   /[slug]
-    route.ts         # Dynamic route handler for URL redirection
-/public              # Static assets
-redirects.json       # URL mappings configuration
-vercel.json         # Deployment and redirect configuration
-tsconfig.json       # TypeScript configuration
+    route.ts            # Dynamic route handler for short links
+/data                  # Redirect source files by category
+/scripts
+  build-redirects.js    # Merges /data/*.json into redirects.json
+/lib
+  redirect-utils.ts     # Redirect + analytics helper
+redirects.json          # Generated at build/dev time
 ```
 
 ## ⚙️ Configuration
 
 ### Adding New Short URLs
 
-Edit `redirects.json` to add new URL mappings:
+Add mappings in the appropriate file inside `/data` (for example `data/content.json`), then regenerate redirects:
+
+```bash
+npm run build:redirects
+```
+
+`npm run dev` and `npm run build` run this automatically.
+
+Each file in `/data` should be a simple slug-to-URL object:
 
 ```json
 {
@@ -89,11 +100,17 @@ Edit `redirects.json` to add new URL mappings:
 ### Allowed Domains
 
 For security, only these domains are permitted as destinations:
+- `github.com`
 - `freewith.tech`
 - `v1.freewith.tech`
 - `v2.freewith.tech`
+- `journey.freewith.tech`
 - `youtu.be`
+- `youtube.com`
 - `open.substack.com`
+- `testflight.apple.com`
+- `producthunt.com`
+- `apps.apple.com`
 
 To modify allowed domains, edit the `ALLOWED_DOMAINS` array in `/app/[slug]/route.ts`.
 
