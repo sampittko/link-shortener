@@ -24,17 +24,19 @@ const ALLOWED_DOMAINS = new Set<string>([
   "apps.apple.com"
 ]);
 
-function validateDestination(destination: string): NextResponse | null {
+function validateDestination(slug: string, destination: string): NextResponse | null {
   try {
     const destinationUrl = new URL(destination);
     if (!ALLOWED_DOMAINS.has(destinationUrl.hostname)) {
-      console.error(`Blocked redirect to unauthorized domain: ${destinationUrl.hostname}`);
-      return NextResponse.json({ error: "Invalid destination" }, { status: 400 });
+      console.error(
+        `Blocked redirect for slug "${slug}" to unauthorized domain: ${destinationUrl.hostname}`
+      );
+      return NextResponse.json({ error: "Redirect configuration error" }, { status: 500 });
     }
     return null;
-  } catch (error) {
-    console.error(`Invalid destination URL: ${destination}`);
-    return NextResponse.json({ error: "Invalid destination URL" }, { status: 400 });
+  } catch {
+    console.error(`Invalid destination URL for slug "${slug}": ${destination}`);
+    return NextResponse.json({ error: "Redirect configuration error" }, { status: 500 });
   }
 }
 
@@ -49,7 +51,7 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const validationError = validateDestination(destination);
+  const validationError = validateDestination(slug, destination);
   if (validationError) {
     return validationError;
   }
