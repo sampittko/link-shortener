@@ -1,14 +1,8 @@
-import fs from "fs";
-import path from "path";
 import { NextRequest, NextResponse } from "next/server";
 import { createTrackedRedirect } from "@/lib/redirect-utils";
+import redirectsData from "@/redirects.json";
 
-interface Redirects {
-  [key: string]: string;
-}
-
-const redirectsFile = path.join(process.cwd(), "redirects.json");
-const redirects: Redirects = JSON.parse(fs.readFileSync(redirectsFile, "utf8"));
+const redirects: Record<string, string> = redirectsData;
 
 const ALLOWED_DOMAINS = new Set<string>([
   "github.com",
