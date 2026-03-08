@@ -29,7 +29,11 @@ export async function createTrackedRedirect(
   const statusCode = permanent ? 308 : 302;
 
   if (!lastVisit || Date.now() - parseInt(lastVisit, 10) > 60000) {
-    await redis.incr(`hits:${slug}`);
+    try {
+      await redis.incr(`hits:${slug}`);
+    } catch (error) {
+      console.error(`Failed to track hit for slug "${slug}"`, error);
+    }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
     response.headers.set(
