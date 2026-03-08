@@ -3,21 +3,17 @@
 const fs = require('fs');
 const path = require('path');
 
+const dataDir = path.join(__dirname, '..', 'data');
+
 function loadRedirectsFile(filename) {
-  const filePath = path.join(__dirname, '..', 'data', filename);
+  const filePath = path.join(dataDir, filename);
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-const files = [
-  'internal-oss-tools.json',
-  'legacy-websites.json',
-  'apps.json',
-  'appearances.json',
-  'content.json',
-  'dev-logs.json',
-  'shorts.json',
-  'socials.json'
-];
+const files = fs
+  .readdirSync(dataDir)
+  .filter((filename) => filename.endsWith('.json') && !filename.startsWith('.'))
+  .sort();
 
 const redirectSections = files.map(filename => ({
   filename,
