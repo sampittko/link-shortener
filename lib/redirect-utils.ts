@@ -31,20 +31,24 @@ export async function createTrackedRedirect(
   const now = Date.now();
 
   if (!Number.isFinite(lastVisit) || now - lastVisit > HIT_DEDUPE_WINDOW_MS) {
+    let tracked = false;
     try {
       await redis.incr(`hits:${slug}`);
+      tracked = true;
     } catch (error) {
       console.error(`Failed to track hit for slug "${slug}"`, error);
     }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
-    response.cookies.set(hitCookieName, String(now), {
-      httpOnly: true,
-      maxAge: HIT_COOKIE_MAX_AGE_SECONDS,
-      path: "/",
-      sameSite: "lax",
-      secure: req.nextUrl.protocol === "https:",
-    });
+    if (tracked) {
+      response.cookies.set(hitCookieName, String(now), {
+        httpOnly: true,
+        maxAge: HIT_COOKIE_MAX_AGE_SECONDS,
+        path: "/",
+        sameSite: "lax",
+        secure: req.nextUrl.protocol === "https:",
+      });
+    }
     return response;
   }
 
