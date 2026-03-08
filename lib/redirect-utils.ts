@@ -28,8 +28,9 @@ export async function createTrackedRedirect(
 
   const hitCookieName = `hit_${slug}`;
   const lastVisit = Number(req.cookies.get(hitCookieName)?.value);
+  const now = Date.now();
 
-  if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > HIT_DEDUPE_WINDOW_MS) {
+  if (!Number.isFinite(lastVisit) || now - lastVisit > HIT_DEDUPE_WINDOW_MS) {
     try {
       await redis.incr(`hits:${slug}`);
     } catch (error) {
@@ -37,7 +38,7 @@ export async function createTrackedRedirect(
     }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
-    response.cookies.set(hitCookieName, String(Date.now()), {
+    response.cookies.set(hitCookieName, String(now), {
       httpOnly: true,
       maxAge: HIT_COOKIE_MAX_AGE_SECONDS,
       path: "/",
