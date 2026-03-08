@@ -17,7 +17,7 @@ export async function createTrackedRedirect(
   const requestUrl = new URL(req.url);
   const destinationUrl = new URL(destination);
   for (const [key, value] of requestUrl.searchParams.entries()) {
-    destinationUrl.searchParams.append(key, value);
+    destinationUrl.searchParams.set(key, value);
   }
   const finalDestination = destinationUrl.toString();
 
