@@ -21,6 +21,12 @@ const ALLOWED_DOMAINS = new Set<string>([
 function validateDestination(slug: string, destination: string): NextResponse | null {
   try {
     const destinationUrl = new URL(destination);
+    if (destinationUrl.protocol !== "https:") {
+      console.error(
+        `Blocked redirect for slug "${slug}" to unauthorized protocol: ${destinationUrl.protocol}`
+      );
+      return NextResponse.json({ error: "Redirect configuration error" }, { status: 500 });
+    }
     if (!ALLOWED_DOMAINS.has(destinationUrl.hostname)) {
       console.error(
         `Blocked redirect for slug "${slug}" to unauthorized domain: ${destinationUrl.hostname}`
