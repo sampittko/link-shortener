@@ -5,6 +5,8 @@ const hasRedisEnv =
   Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
   Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
 const redis = hasRedisEnv ? Redis.fromEnv() : null;
+const HIT_DEDUPE_WINDOW_MS = 60_000;
+const HIT_COOKIE_MAX_AGE_SECONDS = HIT_DEDUPE_WINDOW_MS / 1000;
 
 export async function createTrackedRedirect(
   req: NextRequest,
@@ -25,7 +27,7 @@ export async function createTrackedRedirect(
 
   const statusCode = permanent ? 308 : 302;
 
-  if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > 60000) {
+  if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > HIT_DEDUPE_WINDOW_MS) {
     if (redis) {
       try {
         await redis.incr(`hits:${slug}`);
@@ -37,7 +39,7 @@ export async function createTrackedRedirect(
     const response = NextResponse.redirect(finalDestination, statusCode);
     response.cookies.set(hitCookieName, String(Date.now()), {
       httpOnly: true,
-      maxAge: 60,
+      maxAge: HIT_COOKIE_MAX_AGE_SECONDS,
       path: "/",
       sameSite: "lax",
       secure: req.nextUrl.protocol === "https:",
