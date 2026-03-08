@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run build:redirects",
     "dev": "next dev",
     "build": "npm run build:redirects && next build",
     "build:redirects": "node scripts/build-redirects.js",
