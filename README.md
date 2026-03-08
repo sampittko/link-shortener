@@ -38,8 +38,8 @@ This Next.js application serves as a custom URL shortener that:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/sampittko/fwtwtf-website.git
-cd fwtwtf-website
+git clone https://github.com/sampittko/link-shortener.git
+cd link-shortener
 ```
 
 2. Install dependencies:
