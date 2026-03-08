@@ -17,18 +17,12 @@ export async function createTrackedRedirect(
     finalDestination += (destination.includes("?") ? "&" : "?") + queryParams;
   }
 
-  const cookieHeader = req.headers.get("cookie") || "";
-  const cookies = Object.fromEntries(
-    cookieHeader.split("; ").map((c) => {
-      const [key, ...values] = c.split("=");
-      return [key, values.join("=")];
-    })
-  );
-  const lastVisit = cookies[`hit_${slug}`];
+  const hitCookieName = `hit_${slug}`;
+  const lastVisit = Number(req.cookies.get(hitCookieName)?.value);
 
   const statusCode = permanent ? 308 : 302;
 
-  if (!lastVisit || Date.now() - parseInt(lastVisit, 10) > 60000) {
+  if (!Number.isFinite(lastVisit) || Date.now() - lastVisit > 60000) {
     try {
       await redis.incr(`hits:${slug}`);
     } catch (error) {
@@ -36,10 +30,13 @@ export async function createTrackedRedirect(
     }
 
     const response = NextResponse.redirect(finalDestination, statusCode);
-    response.headers.set(
-      "Set-Cookie",
-      `hit_${slug}=${Date.now()}; Path=/; HttpOnly; Max-Age=60`
-    );
+    response.cookies.set(hitCookieName, String(Date.now()), {
+      httpOnly: true,
+      maxAge: 60,
+      path: "/",
+      sameSite: "lax",
+      secure: req.nextUrl.protocol === "https:",
+    });
     return response;
   }
 
