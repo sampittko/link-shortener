@@ -1,10 +1,25 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-const hasRedisEnv =
-  Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
-  Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
-const redis = hasRedisEnv ? Redis.fromEnv() : null;
+const redisUrl =
+  process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+const redisToken =
+  process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+const hasRedisEnv = Boolean(redisUrl) && Boolean(redisToken);
+const hasPartialRedisEnv = Boolean(redisUrl) !== Boolean(redisToken);
+
+if (hasPartialRedisEnv) {
+  console.warn(
+    "Redis analytics disabled: expected either UPSTASH_REDIS_REST_URL/TOKEN or KV_REST_API_URL/TOKEN."
+  );
+}
+
+const redis = hasRedisEnv
+  ? new Redis({
+      url: redisUrl,
+      token: redisToken,
+    })
+  : null;
 const HIT_DEDUPE_WINDOW_MS = 60_000;
 const HIT_COOKIE_MAX_AGE_SECONDS = HIT_DEDUPE_WINDOW_MS / 1000;
 
@@ -16,8 +31,15 @@ export async function createTrackedRedirect(
 ): Promise<NextResponse> {
   const requestUrl = new URL(req.url);
   const destinationUrl = new URL(destination);
+  const reservedQueryKeys = new Set(destinationUrl.searchParams.keys());
+
   for (const [key, value] of requestUrl.searchParams.entries()) {
+    if (reservedQueryKeys.has(key)) {
+      continue;
+    }
+
     destinationUrl.searchParams.set(key, value);
+    reservedQueryKeys.add(key);
   }
   const finalDestination = destinationUrl.toString();
 

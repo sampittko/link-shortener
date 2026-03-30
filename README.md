@@ -52,9 +52,13 @@ npm install
 # .env.local
 UPSTASH_REDIS_REST_URL=your_redis_url
 UPSTASH_REDIS_REST_TOKEN=your_redis_token
+
+# Vercel KV / Upstash integration also works
+KV_REST_API_URL=your_redis_url
+KV_REST_API_TOKEN=your_redis_token
 ```
 
-If these variables are not set, redirects still work and analytics is disabled.
+If neither env var pair is set, redirects still work and analytics is disabled.
 
 4. Run the development server:
 ```bash
@@ -119,7 +123,7 @@ To modify allowed domains, edit the `ALLOWED_DOMAINS` set in `/scripts/build-red
 ### Analytics
 
 Click tracking is implemented with:
-- **Optional Redis storage**: Tracks hits per slug using `hits:{slug}` keys when Upstash env vars are configured
+- **Optional Redis storage**: Tracks hits per slug using `hits:{slug}` keys when `UPSTASH_*` or `KV_*` env vars are configured
 - **Cookie-based deduplication**: Uses `hit_{slug}` cookies to prevent duplicate hits within 60 seconds
 - **Graceful fallback**: If Redis is not configured, redirects still work and no analytics cookies are set
 
