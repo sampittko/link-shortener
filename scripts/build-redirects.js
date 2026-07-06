@@ -8,6 +8,7 @@ const ALLOWED_PROTOCOL = 'https:';
 const ALLOWED_DOMAINS = new Set([
   'github.com',
   'freewith.tech',
+  'live.freewith.tech',
   'v1.freewith.tech',
   'v2.freewith.tech',
   'journey.freewith.tech',
