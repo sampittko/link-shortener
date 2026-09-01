@@ -17,7 +17,8 @@ const ALLOWED_DOMAINS = new Set([
   'open.substack.com',
   'testflight.apple.com',
   'producthunt.com',
-  'apps.apple.com'
+  'apps.apple.com',
+  'samuelpitonak.com'
 ]);
 
 function loadRedirectsFile(filename) {

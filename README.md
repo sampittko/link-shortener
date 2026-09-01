@@ -117,6 +117,7 @@ For security, only these domains are permitted as destinations:
 - `testflight.apple.com`
 - `producthunt.com`
 - `apps.apple.com`
+- `samuelpitonak.com`
 
 To modify allowed domains, edit the `ALLOWED_DOMAINS` set in `/scripts/build-redirects.js`.
 
