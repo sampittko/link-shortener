@@ -11,6 +11,8 @@ const ALLOWED_DOMAINS = new Set([
   'live.freewith.tech',
   'v1.freewith.tech',
   'v2.freewith.tech',
+  'v3.freewith.tech',
+  'v4.freewith.tech',
   'journey.freewith.tech',
   'youtu.be',
   'youtube.com',
