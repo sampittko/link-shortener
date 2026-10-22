@@ -7,6 +7,13 @@ const dataDir = path.join(__dirname, '..', 'data');
 const ALLOWED_PROTOCOL = 'https:';
 const ALLOWED_DOMAINS = new Set([
   'github.com',
+  'freewithtech.com',
+  'live.freewithtech.com',
+  'v1.freewithtech.com',
+  'v2.freewithtech.com',
+  'v3.freewithtech.com',
+  'v4.freewithtech.com',
+  'journey.freewithtech.com',
   'freewith.tech',
   'live.freewith.tech',
   'v1.freewith.tech',
