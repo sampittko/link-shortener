@@ -1,6 +1,9 @@
 {
+  "journey": "https://live.freewithtech.com/journey",
+
   "decide-what-may-interrupt": "https://live.freewithtech.com/by/deciding-what-may-interrupt",
-  "keep-social-on-purpose": "https://live.freewithtech.com/by/keeping-social-on-purpose",
+  "use-social-media-on-purpose": "https://live.freewithtech.com/by/using-social-media-on-purpose",
+  "keep-social-on-purpose": "https://live.freewithtech.com/by/using-social-media-on-purpose",
   "let-chats-expire": "https://live.freewithtech.com/by/letting-chats-expire",
   "review-leftover-access": "https://live.freewithtech.com/by/reviewing-leftover-access",
   "encrypt-what-is-private": "https://live.freewithtech.com/by/encrypting-what-is-private",
