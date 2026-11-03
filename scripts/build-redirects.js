@@ -27,7 +27,8 @@ const ALLOWED_DOMAINS = new Set([
   'testflight.apple.com',
   'producthunt.com',
   'apps.apple.com',
-  'samuelpitonak.com'
+  'samuelpitonak.com',
+  'fwt.zone'
 ]);
 
 function loadRedirectsFile(filename) {
