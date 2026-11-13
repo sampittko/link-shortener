@@ -106,7 +106,7 @@ for (const section of redirectSections) {
   Object.assign(redirects, section.data);
 }
 
-// Numeric slugs here override the runtime practice ID pattern (/:id and /sk/:id).
+// Numeric slugs here (including <id>.md) override the runtime practice ID pattern.
 
 const outputPath = path.join(__dirname, '..', 'redirects.json');
 fs.writeFileSync(outputPath, JSON.stringify(redirects, null, 2) + '\n');

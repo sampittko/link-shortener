@@ -29,10 +29,27 @@ describe("getPracticeDestination", () => {
     );
   });
 
-  it("rejects values that are not positive integers", () => {
+  it("forwards ID.md paths without doubling the suffix", () => {
+    assert.equal(
+      getPracticeDestination("3.md"),
+      "https://live.freewithtech.com/practices/3.md?utm_source=fwt.wtf&utm_medium=shortlink"
+    );
+    assert.equal(
+      getPracticeDestination("3.md", "sk"),
+      "https://live.freewithtech.com/sk/practices/3.md?utm_source=fwt.wtf&utm_medium=shortlink"
+    );
+    assert.equal(
+      getPracticeDestination("12.md"),
+      "https://live.freewithtech.com/practices/12.md?utm_source=fwt.wtf&utm_medium=shortlink"
+    );
+  });
+
+  it("rejects values that are not positive integers or ID.md", () => {
     assert.equal(getPracticeDestination("0"), null);
     assert.equal(getPracticeDestination("01"), null);
     assert.equal(getPracticeDestination("12abc"), null);
+    assert.equal(getPracticeDestination("12.md.md"), null);
+    assert.equal(getPracticeDestination("3.MD"), null);
     assert.equal(getPracticeDestination("my-story-video"), null);
     assert.equal(getPracticeDestination(""), null);
   });
@@ -55,6 +72,11 @@ describe("resolveSlugRedirect", () => {
     assert.deepEqual(resolveSlugRedirect("57", EXISTING_SLUGS), {
       destination:
         "https://live.freewithtech.com/practices/57?utm_source=fwt.wtf&utm_medium=shortlink",
+      permanent: true,
+    });
+    assert.deepEqual(resolveSlugRedirect("3.md", EXISTING_SLUGS), {
+      destination:
+        "https://live.freewithtech.com/practices/3.md?utm_source=fwt.wtf&utm_medium=shortlink",
       permanent: true,
     });
   });
