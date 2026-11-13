@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { resolveSlugRedirect } from "@/lib/practice-redirects";
 import { createTrackedRedirect } from "@/lib/redirect-utils";
 import redirectsData from "@/redirects.json";
 
@@ -9,11 +10,16 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<NextResponse> {
   const { slug } = await params;
-  const destination = redirects[slug];
+  const resolved = resolveSlugRedirect(slug, redirects);
 
-  if (!destination) {
+  if (!resolved) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  return createTrackedRedirect(req, destination, slug);
-} 
+  return createTrackedRedirect(
+    req,
+    resolved.destination,
+    slug,
+    resolved.permanent
+  );
+}
