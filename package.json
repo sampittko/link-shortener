@@ -8,7 +8,8 @@
     "build": "npm run build:redirects && next build",
     "build:redirects": "node scripts/build-redirects.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --experimental-strip-types --test lib/practice-redirects.test.ts"
   },
   "dependencies": {
     "@upstash/redis": "^1.34.4",

@@ -17,6 +17,10 @@ This Next.js application serves as a custom URL shortener that:
 - `fwt.wtf/kickoff` → Full Substack article about digital freedom
 - `fwt.wtf/my-story-video` → YouTube video about the creator's journey
 - `fwt.wtf/digital-minimalism` → Blog post about digital minimalism
+- `fwt.wtf/12` → Practice 12 on live.freewithtech.com (any positive integer ID)
+- `fwt.wtf/sk/12` → Slovak practice 12 on live.freewithtech.com
+- `fwt.wtf/3.md` → Markdown for practice 3 (`/practices/3.md`)
+- `fwt.wtf/sk/3.md` → Slovak markdown for practice 3
 
 ## 🧱 Tech Stack
 
@@ -71,9 +75,11 @@ The service will be available at `http://localhost:3000/[slug]`
 
 ```
 /app
-  route.ts              # Root redirect (/ -> freewith.tech)
+  route.ts              # Root redirect (/ -> live.freewithtech.com)
   /[slug]
-    route.ts            # Dynamic route handler for short links
+    route.ts            # Dynamic route handler for short links + numeric practice IDs (including .md)
+  /sk/[id]
+    route.ts            # Slovak practice ID short links (including .md)
 /data                  # Redirect source files by category
 /scripts
   build-redirects.js    # Merges /data/*.json into redirects.json
@@ -102,6 +108,17 @@ Each file in `/data` should be a simple slug-to-URL object:
   "another-slug": "https://another-destination.com"
 }
 ```
+
+### Practice ID short links
+
+Positive integer paths are handled by a generic pattern in the route handlers, not by `/data/*.json`:
+
+- `fwt.wtf/<id>` permanently redirects to `https://live.freewithtech.com/practices/<id>?utm_source=fwt.wtf&utm_medium=shortlink`
+- `fwt.wtf/sk/<id>` permanently redirects to `https://live.freewithtech.com/sk/practices/<id>?utm_source=fwt.wtf&utm_medium=shortlink`
+- `fwt.wtf/<id>.md` permanently redirects to `https://live.freewithtech.com/practices/<id>.md?utm_source=fwt.wtf&utm_medium=shortlink`
+- `fwt.wtf/sk/<id>.md` permanently redirects to `https://live.freewithtech.com/sk/practices/<id>.md?utm_source=fwt.wtf&utm_medium=shortlink`
+
+`<id>` must be a positive integer (digits only, no leading zeros). The `.md` suffix is forwarded as-is to the practices site; these links do not look up word slugs. Unknown IDs are left for the practices site to 404. Word-slug mappings in `/data` always win, including if a numeric slug is ever added there.
 
 ### Allowed Domains
 
